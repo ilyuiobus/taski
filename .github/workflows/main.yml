@@ -6,12 +6,24 @@ on:
       - main
 
 jobs:
-  checkout-and-print-tree:
+  backend_tests:
     runs-on: ubuntu-latest
 
     steps:
       - name: Check out repository code
         uses: actions/checkout@v3
 
-      - name: Print project tree
-        run: tree .
+      - name: Set up Python
+        uses: actions/setup-python@v4
+        with:
+          python-version: '3.12'
+
+      - name: Install dependencies
+        run: |
+          cd backend
+          pip install -r requirements.txt
+
+      - name: Run tests
+        run: |
+          cd backend
+          python manage.py test
